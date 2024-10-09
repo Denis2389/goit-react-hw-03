@@ -1,4 +1,4 @@
-import s from '../ContactForm/ContactForm.module.css'
+import s from './ContactForm.module.css'
 import { Form, Field, Formik } from 'formik'
 
 export default function ContactForm() {

@@ -26,6 +26,8 @@
 }
 
 .field {
-    padding: 5px 40px;
+    width: 200px;
+    height: 20px;
+    max-width: 100%;
 }
 
