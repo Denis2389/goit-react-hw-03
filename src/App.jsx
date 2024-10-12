@@ -1,8 +1,7 @@
 import ContactForm from "./components/ContactForm/ContactForm"
 import SearchBox from "./components/SearchBox/SearchBox"
 import ContactList from "./components/ContactList/ContactList"
-import { nanoid } from 'nanoid'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 
 
@@ -14,14 +13,37 @@ function App() {
       {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},   
   ])
 
+  const [filter, setFilter] = useState('');
+
+  const filteredContacts = contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()))
+
+  const handleDelete = id => {
+    setContacts(contacts.filter(contact => contact.id !== id));
+  }
+
+  useEffect(() => {
+    const savedContacts = JSON.parse(localStorage.getItem('contacts'))
+    if (savedContacts) {
+      setContacts(savedContacts)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (contacts.length > 0) {
+      localStorage.setItem('contacts', JSON.stringify(contacts))
+    }
+  }, [contacts])
+
   return (
     <div>
-      <h1 style={{ textAlign: 'center', marginBottom: 0, marginLeft: -110 }}>Phonebook</h1>
-      <ContactForm/>
-      <SearchBox/>
-      <ContactList/>
+      <h1 style={{ textAlign: "center", marginBottom: 0, marginLeft: -100 }}>
+        Phonebook
+      </h1>
+      <ContactForm onSubmit={newContact => setContacts([...contacts, newContact])} />
+      <SearchBox value={filter} onChange={e => setFilter(e.target.value)} />
+      <ContactList contacts={filteredContacts} onDelete={handleDelete}/>
     </div>
-  )
+  );
 }
 
 export default App

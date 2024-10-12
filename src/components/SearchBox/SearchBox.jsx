@@ -1,15 +1,22 @@
-import s from '../ContactForm/ContactForm.module.css'
+import s from '../SearchBox/SearchBox.module.css'
 
-export const SearchBox = () => {
+/* eslint-disable react/prop-types */
+
+const SearchBox = ({ value, onChange }) => {
   return (
-    <div className={s.wrapper}> {
-            <form className={s.form}>
-                <label className={s.label}>
-                    <span>Find contacts by name</span>
-                    <input type='text' placeholder='Find...' className={s.field} name="find"/>
-                </label>
-            </form>
-    }
+    <div className={s.wrapper}>
+    <label className={s.label}>
+      <p>Find contacts by name</p>
+      <input
+        type="text"
+        placeholder="Enter name"
+        value={value}
+        onChange={onChange}
+        className={s.field}
+      />
+    </label>
     </div>
-  )
+  );
 }
+
+export default SearchBox
