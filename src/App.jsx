@@ -13,6 +13,21 @@ function App() {
       {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},   
   ])
 
+  useEffect(() => {
+    const savedContacts = JSON.parse(localStorage.getItem('contacts'));
+    if (savedContacts) {
+      setContacts(prevContacts => [
+        ...prevContacts,
+        ...savedContacts.filter(savedContacts => !prevContacts.some(prevContacts => prevContacts.id === savedContacts.id))
+      ])
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts])
+
+
   const [filter, setFilter] = useState('');
 
   const filteredContacts = contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()))
@@ -20,19 +35,6 @@ function App() {
   const handleDelete = id => {
     setContacts(contacts.filter(contact => contact.id !== id));
   }
-
-  useEffect(() => {
-    const savedContacts = JSON.parse(localStorage.getItem('contacts'))
-    if (savedContacts) {
-      setContacts(savedContacts)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (contacts.length > 0) {
-      localStorage.setItem('contacts', JSON.stringify(contacts))
-    }
-  }, [contacts])
 
   return (
     <div>
